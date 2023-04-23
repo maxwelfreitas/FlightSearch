@@ -90,12 +90,24 @@ if __name__ == '__main__':
         for trip in trip_list:
             origin, destination, departure_date = trip
             print('\t',datetime.now().isoformat(), origin, destination, departure_date)
-            offers = ads.search_flights(origin, destination, departure_date, miles=False)
-            if len(offers) >= 1:
-                fo.append(offers)
-            offers_miles = ads.search_flights(origin, destination, departure_date, miles=True)
-            if len(offers_miles) >= 1:
-                fo.append(offers_miles)
+            
+            try:
+                offers = ads.search_flights(origin, destination, departure_date, miles=False)
+            except:
+                pass
+            else:
+                if len(offers) >= 1:
+                    fo.append(offers)
+            
+            try:    
+                offers_miles = ads.search_flights(origin, destination, departure_date, miles=True)
+            except:
+                pass
+            else:
+                if len(offers_miles) >= 1:
+                    fo.append(offers_miles)
+            
+            
     
     fo.save_json(output_file)
     print('Pesquisa concluída. Resultados armazenados no arquivo',output_file)
